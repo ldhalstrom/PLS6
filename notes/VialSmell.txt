@@ -1,0 +1,10 @@
+1=Yellow
+A: wood, earth, forest
+2=Red
+C: menthol, mint, sweet
+3=Blue
+B: nectar
+4=Black
+B: bananna extract
+5=Green
+C: spearmint
