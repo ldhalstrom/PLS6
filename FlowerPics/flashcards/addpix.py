@@ -97,7 +97,7 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
         # tit = [re.search('(?<=^)(?P<value>.*?)(?=.{})'.format(filetype).group('value'), f) for f in cur]
         tit = [] #Titles for each flash card (remove extension)
         for c in cur:
-            tit.append( FindBetween(c, '/'.format(picdir), '.{}'.format(filetype)) )
+            tit.append( FindBetween(c, '/'.format(picdir), '.{}'.format(filetype)).replace('_', '\_') )
 
         #Swap every other title for correct double-sided printing
         for i in range(0, nper-2, 2):
@@ -109,9 +109,10 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
         #Write all Titles
         for t in tit:
 
-            ofile.write( '\\noindent  {}\n'.format(' ') )
+            ofile.write( '\\noindent  {}\n'.format('PLS 006') )
             ofile.write( '\\vfill\n' )
-            ofile.write( '\\centerline{{{{\Large\emph{{{}}}}}}}\n'.format(t) )
+            # ofile.write( '\\centerline{{{{\Large\emph{{{}}}}}}}\n'.format(t) )
+            ofile.write( '\\centerline{{{{\huge {} }}}}\n'.format(t) )
             ofile.write( '\\vfill\n' )
             ofile.write( '\\newpage\n\n' )
 
