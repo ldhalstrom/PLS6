@@ -53,24 +53,91 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
 
 
     #GET ALL FILENAMES OF SPECIFIED IMAGE TYPE
-    ogdir = os.getcwd()
-    os.chdir(picdir)
-    files = glob.glob('*.{}'.format(filetype))
-    os.chdir(ogdir)
+    # ogdir = os.getcwd()
+    # os.chdir(picdir)
+    # files = glob.glob('*.{}'.format(filetype))
+    # os.chdir(ogdir)
+
+    files = glob.glob('{}/*.{}'.format(picdir, filetype))
 
     #OPEN SAVE OR APPEND FILE
     if append:
         #Copy base Tex file to output file and append to it
-        cmd('cp base.txt {}'.format(ofilename))
+        cmd('cp base.tex {}'.format(ofilename))
         ofile = open(ofilename, 'a')
+        ofile.write('\n')
     else:
         #Write to empty output file
         ofile = open(ofilename, 'w')
 
 
 
-    for file in files:
-        ofile.write('{}\n'.format(file))
+    #WRITE LATEX SCRIPT
+
+    #Determine how many pages will be made
+    N = len(files)      #Number of individuals
+    nper = 8            #Number of individuals per page
+    np = N // nper      #Number of pages fully filled
+    print(np)
+
+    #Write complete pages until list is used up
+    ii = 0
+    while files and ii < 200:
+        cur = [' '] * nper    #Current nper images to write (empty)
+        for i, f in enumerate(files[:nper]):
+            cur[i] = f        #fill with titles until 'files' is empty
+        # cur = files[:nper]    #Current nper images to write
+        files = files[nper:]  #Remaining unused images
+
+
+        # tit = list(cur)       #Titles for each flash card (remove extension)
+        # #Titles for each flash card (remove extension)
+        # tit = [re.search('(?<=^)(?P<value>.*?)(?=.{})'.format(filetype).group('value'), f) for f in cur]
+        tit = [] #Titles for each flash card (remove extension)
+        for c in cur:
+            tit.append( FindBetween(c, '/'.format(picdir), '.{}'.format(filetype)) )
+
+        #Swap every other title for correct double-sided printing
+        for i in range(0, nper-2, 2):
+            print(i)
+            tit[i], tit[i+1] = tit[i+1], tit[i]
+
+
+        # ofile.write('\\newpage\n')
+
+        #Write all Titles
+        for t in tit:
+
+            ofile.write( '\\noindent  {}\n'.format(' ') )
+            ofile.write( '\\vfill\n' )
+            ofile.write( '\\centerline{{{{\Large\emph{{{}}}}}}}\n'.format(t) )
+            ofile.write( '\\vfill\n' )
+            ofile.write( '\\newpage\n\n' )
+
+
+
+            # ofile.write('{}\n'.format(f))
+
+
+        #Write corresponding Answers
+        for c in cur:
+            ofile.write( '\\vspace*{\\stretch{1}}\n' )
+            ofile.write( '\\begin{center}\n' )
+
+            ofile.write( '\\includegraphics[width=0.5\\textwidth]{{{}}}'.format(c) )
+
+
+            ofile.write( '\\end{center}\n' )
+            ofile.write( '\\vspace*{\\stretch{1}}\n' )
+            ofile.write( '\\newpage\n\n' )
+
+
+        ii += 1
+
+
+
+    # for file in files:
+    #     ofile.write('{}\n'.format(file))
 
 
 
@@ -78,7 +145,7 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
     #CLOSE SAVE FILE
     if append:
         #end LaTeX document if appending to have runnable script
-        ofile.write('\end{document}\n')
+        ofile.write('\n\end{document}\n')
     ofile.close()
 
 
