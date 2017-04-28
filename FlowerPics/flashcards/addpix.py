@@ -84,8 +84,7 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
     np = N // nper      #Number of pages fully filled
 
     #Write complete pages until list is used up
-    ii = 0
-    while files and ii < 200:
+    while files:
         cur = [' '] * nper    #Current nper images to write (empty)
         for i, f in enumerate(files[:nper]):
             cur[i] = f        #fill with titles until 'files' is empty
@@ -128,7 +127,7 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
             # ofile.write( '\\begin{figure}\n' )
             ofile.write( '\\begin{center}\n' )
 
-            ofile.write( '\\includegraphics[width=0.9\\textheight, angle=90]{{{}}}\n'.format(c) )
+            ofile.write( '\\includegraphics[height=0.925\\paperheight]{{{}}}\n'.format(c) )
             # ofile.write( '\\includegraphics[width=\\linewidth,height=\\textheight,keepaspectratio, angle=90]{{{}}}\n'.format(c) )
 
 
@@ -141,14 +140,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
             ofile.write( '\\newpage\n\n' )
 
 
-        ii += 1
-
-
-
-    # for file in files:
-    #     ofile.write('{}\n'.format(file))
-
-
 
 
     #CLOSE SAVE FILE
@@ -156,10 +147,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
         #end LaTeX document if appending to have runnable script
         ofile.write('\n\end{document}\n')
     ofile.close()
-
-
-    #     iters.append(re.search(head + r'\.([0-9]*)', file).group(1))
-    # iters = [int(i) for i in iters]
 
 
 if __name__ == "__main__":
