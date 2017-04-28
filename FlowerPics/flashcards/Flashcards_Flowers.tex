@@ -12,6 +12,7 @@
 \repeat
 \makeatother
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{flashcard}[2][]{%
 \noindent  \textsc{#1} %flash card title text
 
@@ -20,9 +21,8 @@
 \vfill
 \newpage
 }
-
-
 {\newpage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage[latin1]{inputenc}
 \usepackage{amsfonts}
@@ -42,8 +42,8 @@
 
 
 
-\begin{python}
-\end{python}
+% \begin{python}
+% \end{python}
 
 
 
@@ -66,5 +66,25 @@ w(x,r)=(x-x_{0})\sum_{n=0}^{\infty}a_{n}(x-x_{0})^{n}
 \end{displaymath}
 \vspace*{\stretch{1}}
 \end{flashcard}
+
+
+%manual flash card without function
+\noindent  test title label
+\vfill
+\centerline{{\Large\emph{test title text}}} %flashcard word text
+\vfill
+\newpage
+
+\vspace*{\stretch{1}}
+\begin{center}
+test picture
+\end{center}
+\vspace*{\stretch{1}}
+\newpage
+
+
+
+
+
 
 \end{document}
