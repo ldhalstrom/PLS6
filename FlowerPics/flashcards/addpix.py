@@ -1,8 +1,12 @@
 """LATEX PICTURE FLASHCARD MAKER
 Logan Halstrom
 28 April 2017
+
 DESCRIPTION:  Glob all picture filenames in a directory.  Write LaTeX script
 that plots all pictures in flashcard form, with filename as label.
+
+NOTES: Orient all pictures so that longest dimension is horizontal
+
 """
 
 import subprocess
@@ -78,7 +82,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
     N = len(files)      #Number of individuals
     nper = 8            #Number of individuals per page
     np = N // nper      #Number of pages fully filled
-    print(np)
 
     #Write complete pages until list is used up
     ii = 0
@@ -99,7 +102,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
 
         #Swap every other title for correct double-sided printing
         for i in range(0, nper-2, 2):
-            print(i)
             tit[i], tit[i+1] = tit[i+1], tit[i]
 
 
@@ -121,14 +123,21 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
 
         #Write corresponding Answers
         for c in cur:
-            ofile.write( '\\vspace*{\\stretch{1}}\n' )
+            # ofile.write( '\\vspace*{\\stretch{1}}\n' )
+
+            # ofile.write( '\\begin{figure}\n' )
             ofile.write( '\\begin{center}\n' )
 
-            ofile.write( '\\includegraphics[width=0.5\\textwidth]{{{}}}'.format(c) )
+            ofile.write( '\\includegraphics[width=0.9\\textheight, angle=90]{{{}}}\n'.format(c) )
+            # ofile.write( '\\includegraphics[width=\\linewidth,height=\\textheight,keepaspectratio, angle=90]{{{}}}\n'.format(c) )
+
 
 
             ofile.write( '\\end{center}\n' )
-            ofile.write( '\\vspace*{\\stretch{1}}\n' )
+
+            # ofile.write( '\\end{figure}\n' )
+
+            # ofile.write( '\\vspace*{\\stretch{1}}\n' )
             ofile.write( '\\newpage\n\n' )
 
 
@@ -160,7 +169,7 @@ if __name__ == "__main__":
     Type = 'jpg'
 
 
-    main(PicDir, Type, True, 'FlowerTest.tex')
+    main(PicDir, Type, True, 'Flashcards_Flowers.tex')
 
 
 
