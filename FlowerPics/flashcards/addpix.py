@@ -57,10 +57,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
 
 
     #GET ALL FILENAMES OF SPECIFIED IMAGE TYPE
-    # ogdir = os.getcwd()
-    # os.chdir(picdir)
-    # files = glob.glob('*.{}'.format(filetype))
-    # os.chdir(ogdir)
 
     files = glob.glob('{}/*.{}'.format(picdir, filetype))
 
@@ -91,10 +87,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
         # cur = files[:nper]    #Current nper images to write
         files = files[nper:]  #Remaining unused images
 
-
-        # tit = list(cur)       #Titles for each flash card (remove extension)
-        # #Titles for each flash card (remove extension)
-        # tit = [re.search('(?<=^)(?P<value>.*?)(?=.{})'.format(filetype).group('value'), f) for f in cur]
         tit = [] #Titles for each flash card (remove extension)
         for c in cur:
             tit.append( FindBetween(c, '/'.format(picdir), '.{}'.format(filetype)).replace('_', '\_') )
@@ -103,8 +95,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
         for i in range(0, nper-2, 2):
             tit[i], tit[i+1] = tit[i+1], tit[i]
 
-
-        # ofile.write('\\newpage\n')
 
         #Write all Titles
         for t in tit:
@@ -115,10 +105,6 @@ def main(picdir, filetype='jpg', append=True, ofilename='out.tex'):
             ofile.write( '\\centerline{{{{\huge {} }}}}\n'.format(t) )
             ofile.write( '\\vfill\n' )
             ofile.write( '\\newpage\n\n' )
-
-
-
-            # ofile.write('{}\n'.format(f))
 
 
         #Write corresponding Answers
